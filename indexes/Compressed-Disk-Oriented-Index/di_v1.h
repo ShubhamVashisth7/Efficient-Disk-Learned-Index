@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "base.h"
+#include "base_di_v1.h"
 
 namespace compressed_disk_index {
 /**
@@ -65,11 +65,12 @@ class DiskOrientedIndexV1 {
     const auto res = GetSegmentIndex(key);
 
     const size_t pred = Predict(key - res.second, res.first);
+
     const size_t begin = (pred < error_) ? 0 : (pred - error_);
     const size_t end =
         (pred + error_ + 1 > max_y_) ? max_y_ : (pred + error_ + 1);
     return SearchBound{begin, end + 1};
-  }
+
 
   size_t GetModelNum() const { return a_.size(); }
 
