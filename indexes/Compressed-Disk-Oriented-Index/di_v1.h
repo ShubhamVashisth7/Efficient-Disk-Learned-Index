@@ -40,8 +40,7 @@ class DiskOrientedIndexV1 {
     error_ = pgm_epsilon;
     std::vector<std::pair<float, float>> origin_slope_ranges;
     std::vector<std::pair<long double, long double>> origin_intersections;
-    std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment>
-        pgm_segments;
+    pgm_segments.clear();
 
     GetDiskOrientedPGM(data, pgm_epsilon, record_per_page_, max_y_,
                        pgm_segments, origin_slope_ranges, origin_intersections);
@@ -65,12 +64,10 @@ class DiskOrientedIndexV1 {
     const auto res = GetSegmentIndex(key);
 
     const size_t pred = Predict(key - res.second, res.first);
-
     const size_t begin = (pred < error_) ? 0 : (pred - error_);
-    const size_t end =
-        (pred + error_ + 1 > max_y_) ? max_y_ : (pred + error_ + 1);
+    const size_t end = (pred + error_ + 1 > max_y_) ? max_y_ : (pred + error_ + 1);
     return SearchBound{begin, end + 1};
-
+  }
 
   size_t GetModelNum() const { return a_.size(); }
 
@@ -78,6 +75,15 @@ class DiskOrientedIndexV1 {
     return a_.size() * (sizeof(K) + sizeof(float) + sizeof(double)) +
            sizeof(K) + sizeof(error_);
   }
+
+  size_t GetMaxY() const { return max_y_; }
+
+  size_t GetError() const { return error_; }
+
+  size_t GetNumSegments() const { return model_keys_.size(); }
+
+  const std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment>& 
+    GetSegments() const { return pgm_segments;}
 
  private:
   inline std::pair<size_t, K> GetSegmentIndex(const K key) const {
@@ -103,6 +109,8 @@ class DiskOrientedIndexV1 {
   uint16_t error_;
   std::vector<float> a_;
   std::vector<double> b_;
+
+    std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment> pgm_segments;
 };
 
 }  // namespace compressed_disk_index

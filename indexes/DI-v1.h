@@ -49,6 +49,18 @@ class DI_V1 : public BaseIndex<K, V> {
     return GetInMemorySize() + disk_size_;
   }
 
+  size_t GetNumSegments() const { return di_.GetNumSegments(); }
+
+  const std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment>& GetSegments() const {
+    return di_.GetSegments();
+  }
+  
+  size_t GetRecordPerPage() const { return record_per_page_; }
+
+  size_t GetError() const { return di_.GetError(); }
+
+  size_t GetMaxY() const { return di_.GetMaxY(); }
+
  private:
   compressed_disk_index::DiskOrientedIndexV1<K, V> di_;
 
