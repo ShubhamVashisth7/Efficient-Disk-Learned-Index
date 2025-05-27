@@ -22,7 +22,7 @@ class DiskOrientedIndexV1 {
         error_(1) {}
 
   void Build(std::vector<std::pair<K, V>>& data, float lambda = 1.05) {
-    PrintCurrTime();
+    // PrintCurrTime();
     min_key_ = data[0].first;
     max_key_ = data.back().first;
     max_y_ = data.back().second;
@@ -36,7 +36,7 @@ class DiskOrientedIndexV1 {
     if (pgm_epsilon == 14) {
       pgm_epsilon = 15;
     }
-    std::cout << "pgm_epsilon:" << pgm_epsilon << std::endl;
+    // std::cout << "pgm_epsilon:" << pgm_epsilon << std::endl;
     error_ = pgm_epsilon;
     std::vector<std::pair<float, float>> origin_slope_ranges;
     std::vector<std::pair<long double, long double>> origin_intersections;

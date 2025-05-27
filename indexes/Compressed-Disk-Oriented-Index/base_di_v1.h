@@ -687,13 +687,13 @@ class LinearModelBuilder {
 //   return reduced_MiB;
 // }
 
-static void PrintCurrTime() {
-  time_t timep;
-  time(&timep);
-  char tmpTime[64];
-  strftime(tmpTime, sizeof(tmpTime), "%Y-%m-%d %H:%M:%S", localtime(&timep));
-  std::cout << "TEST time: " << tmpTime << std::endl;
-}
+// static void PrintCurrTime() {
+//   time_t timep;
+//   time(&timep);
+//   char tmpTime[64];
+//   strftime(tmpTime, sizeof(tmpTime), "%Y-%m-%d %H:%M:%S", localtime(&timep));
+//   std::cout << "TEST time: " << tmpTime << std::endl;
+// }
 
 template <typename K, typename V>
 void GetDiskOrientedPGM(
@@ -707,27 +707,27 @@ void GetDiskOrientedPGM(
       data.begin(), data.end(), epsilon, record_per_page, max_y, pgm_segments,
       slope_range, intersec);
 
-#ifndef HYBRID_BENCHMARK
-  std::vector<std::pair<float, float>> tmp_slope;
-  std::vector<std::pair<long double, long double>> tmp_inter;
-  std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment> origin_pgm;
-  pgm_page::PGMIndexPage<K>::get_segments_compression(
-      data.begin(), data.end(), epsilon, max_y, origin_pgm, tmp_slope,
-      tmp_inter);
-  PrintCurrTime();
-  std::cout << ", after pgm splitting (on disk), #models:"
-            << pgm_segments.size()
-            << ",\tavg:" << data.size() * 1.0 / pgm_segments.size()
-            << " records per model" << std::endl;
-  std::cout << ", after pgm splitting (origin version), #models:"
-            << origin_pgm.size()
-            << ",\tavg:" << data.size() * 1.0 / origin_pgm.size()
-            << " records per model,\tzero range reduces #model:"
-            << origin_pgm.size() - pgm_segments.size() << ",\tpercentage: "
-            << (origin_pgm.size() - pgm_segments.size()) * 1.0 /
-                   origin_pgm.size()
-            << std::endl;
-#endif
+// #ifndef HYBRID_BENCHMARK
+//   std::vector<std::pair<float, float>> tmp_slope;
+//   std::vector<std::pair<long double, long double>> tmp_inter;
+//   std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment> origin_pgm;
+//   pgm_page::PGMIndexPage<K>::get_segments_compression(
+//       data.begin(), data.end(), epsilon, max_y, origin_pgm, tmp_slope,
+//       tmp_inter);
+//   PrintCurrTime();
+//   std::cout << ", after pgm splitting (on disk), #models:"
+//             << pgm_segments.size()
+//             << ",\tavg:" << data.size() * 1.0 / pgm_segments.size()
+//             << " records per model" << std::endl;
+//   std::cout << ", after pgm splitting (origin version), #models:"
+//             << origin_pgm.size()
+//             << ",\tavg:" << data.size() * 1.0 / origin_pgm.size()
+//             << " records per model,\tzero range reduces #model:"
+//             << origin_pgm.size() - pgm_segments.size() << ",\tpercentage: "
+//             << (origin_pgm.size() - pgm_segments.size()) * 1.0 /
+//                    origin_pgm.size()
+//             << std::endl;
+// #endif
 }
 
 }  // namespace compressed_disk_index
