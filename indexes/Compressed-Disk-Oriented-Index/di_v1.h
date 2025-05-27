@@ -109,8 +109,7 @@ class DiskOrientedIndexV1 {
   uint16_t error_;
   std::vector<float> a_;
   std::vector<double> b_;
-
-    std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment> pgm_segments;
+  std::vector<typename pgm_page::PGMIndexPage<K>::CompressSegment> pgm_segments;
 };
 
 }  // namespace compressed_disk_index
